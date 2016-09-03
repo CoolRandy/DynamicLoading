@@ -101,4 +101,5 @@ public class BaseActivity extends Activity {
             mProxyActivity.addContentView(view, params);
         }
     }
+
 }
