@@ -23,6 +23,7 @@ URLClassLoader ：可以加载java中的jar，但是由于dalvik不能直接识�
 复制到/mnt/sdcard/DynaminLoadHost/目录下，并使用rename命令重命名为plugin.apk。这时有一点需要注意，宿主程序加载apk中的MainActivity在该工程中是无法获取xml中定义的资源文件的，也就是说
 要通过代码的方式定义布局，测试过程中出现一个问题：在设置LinearLayout的背景颜色时调用了getResource方法，是会报错的，因为该方法是查询资源ID，调用不到。如果后面改动了插件的代码，需要重新编译生成apk文件，这点也要注意。
 2、然后以宿主Activity：HostActivity作为Launcher，编译运行点击button即可调起apk.有一个问题需要注意：从MainActivity点击跳转到TestActivity时，则出现了错误。后来发现是startActivityByProxy 方法的第二分支有问题，首先，PROXY_VIEW_ACTION 是一个自定义的 Action 字符串，所以需要在 APK 的配置文件中添加 intent-filter，但是，宿主程序并不能访问未安装的 APK 的配置文件，可以直接在代理activity即ProxyActivity的配置文件中添加intent-filter:
+
 ```java
 <intent-filter>
     <action android:name="com.randy.alipay.dlapplication.host.VIEW"/>
@@ -38,3 +39,4 @@ URLClassLoader ：可以加载java中的jar，但是由于dalvik不能直接识�
 任教主在这里采用的是下面的实现方式：
 
 分析Context的源码可以知道Activity的主要工作是由ContextImpl来完成的。注意到Context中有两个抽象方法：
+
