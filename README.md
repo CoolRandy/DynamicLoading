@@ -27,3 +27,4 @@ URLClassLoader ：可以加载java中的jar，但是由于dalvik不能直接识�
     <action android:name="com.randy.alipay.dlapplication.host.VIEW"/>
     <category android:name="android.intent.category.DEFAULT"/>
 </intent-filter>
+------------------------
