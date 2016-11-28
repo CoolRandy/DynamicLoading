@@ -2,8 +2,6 @@ package com.randy.alipay.dlapplication.host;
 
 import android.app.Activity;
 import android.content.pm.PackageInfo;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,7 +14,6 @@ import dalvik.system.DexClassLoader;
 /**
  * Created by randy on 2016/9/2.
  * 代理activity
- * 该activity一定要在宿主程序配置文件中注册
  */
 public class ProxyActivity extends Activity {
 
@@ -53,25 +50,9 @@ public class ProxyActivity extends Activity {
         }
     }
 
-    @Override
-    public AssetManager getAssets() {
-        return super.getAssets();
-    }
-
-    @Override
-    public Resources getResources() {
-        return super.getResources();
-    }
-
-    @Override
-    public Resources.Theme getTheme() {
-        return super.getTheme();
-    }
-
     private void launchActivity(){
 
         PackageInfo packageInfo = getPackageManager().getPackageArchiveInfo(mDexPath, 1);
-        Log.e("TAG", "package info: " + packageInfo);
         if (packageInfo.activities != null && (packageInfo.activities.length > 0)){
 
             String activityName = packageInfo.activities[0].name;

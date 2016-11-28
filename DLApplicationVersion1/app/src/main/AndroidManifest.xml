@@ -3,20 +3,18 @@
     package="com.randy.alipay.dlapplication" >
 
     <application
-        android:name="com.randy.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".host.HostActivity" >
+        <activity android:name=".client.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.randy.hook.HookActivity" />
         <activity android:name=".client.BaseActivity"/>
         <activity android:name=".client.TestActivity"/>
         <activity android:name=".host.ProxyActivity">
@@ -25,7 +23,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".client.MainActivity"/>
+        <activity android:name=".host.HostActivity"/>
     </application>
 
 </manifest>

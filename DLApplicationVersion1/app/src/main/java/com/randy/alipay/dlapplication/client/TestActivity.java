@@ -20,6 +20,5 @@ public class TestActivity extends BaseActivity {
         button.setBackgroundColor(Color.YELLOW);
         button.setText("测试界面");
         setContentView(button);
-
     }
 }
