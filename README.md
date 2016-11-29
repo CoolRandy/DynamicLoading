@@ -21,7 +21,8 @@ URLClassLoader ：可以加载java中的jar，但是由于dalvik不能直接识�
 
 版本1：DLApplicationVersion1
 ----------------------------
-注意点：1、首先以MainActivity作为Launcher，编译运行生成apk文件，默认情况下生成的apk文件位于/data/app/目录下，为了测试demo从sd卡中加载apk文件，可以采用adb的cp命令将该目录下的apk文件
+注意点：1、首先以MainActivity作为Launcher，编译运行生成apk文件，默认情况下生成的apk文件位于/data/app/目录下(但是这里要注意对于真机需要root权限才可访问，非root情况下导出apk文件有些难度，对于华为等手机，访问一直是受限的，为了避免折腾，可以选用模拟器来测试）
+为了测试demo从sd卡中加载apk文件，可以采用adb的cp命令将该目录下的apk文件
 复制到/mnt/sdcard/DynaminLoadHost/目录下，并使用rename命令重命名为plugin.apk。这时有一点需要注意，宿主程序加载apk中的MainActivity在该工程中是无法获取xml中定义的资源文件的，也就是说
 要通过代码的方式定义布局，测试过程中出现一个问题：在设置LinearLayout的背景颜色时调用了getResource方法，是会报错的，因为该方法是查询资源ID，调用不到。如果后面改动了插件的代码，需要重新编译生成apk文件，这点也要注意。
 2、然后以宿主Activity：HostActivity作为Launcher，编译运行点击button即可调起apk.有一个问题需要注意：从MainActivity点击跳转到TestActivity时，则出现了错误。后来发现是startActivityByProxy 方法的第二分支有问题，首先，PROXY_VIEW_ACTION 是一个自定义的 Action 字符串，所以需要在 APK 的配置文件中添加 intent-filter，但是，宿主程序并不能访问未安装的 APK 的配置文件，可以直接在代理activity即ProxyActivity的配置文件中添加intent-filter:
@@ -31,9 +32,13 @@ URLClassLoader ：可以加载java中的jar，但是由于dalvik不能直接识�
     <action android:name="com.randy.alipay.dlapplication.host.VIEW"/>
     <category android:name="android.intent.category.DEFAULT"/>
 </intent-filter>
-```java
 
-------------------------
+```
+
+版本2：DLApplication
+-----------------------------------------
+资源加载和activity生命周期管理
+
 
 上面的工程实现了动态加载加载sd卡上的apk文件，但是没有解决资源访问和Activity生命周期管理。调起未安装的apk从技术的角度不可能所有的情况都适用，调起的apk必须遵循某种约束。
 插件化的目的是减小宿主程序apk包的大小，同时降低宿主程序的更新频率并做到自由装载模块。
@@ -49,17 +54,11 @@ URLClassLoader ：可以加载java中的jar，但是由于dalvik不能直接识�
 
 /** Return a Resources instance for your application's package. */
 public abstract Resources getResources();
-```java
+```
 
 实际上Context就是通过这两个方法来加载资源的，具体实现是在ContextImpl中的，接下来就是看在我们的代码中如何实现这两个抽象方法：
 
 1、加载资源文件：我们知道assets目录下的文件不会被直接映射到R.java中，访问的时候需要AssetManager类，然后调用addAssetPath方法去加载
-
-
-
-版本2：DLApplication
------------------------------------------
-资源加载和activity生命周期管理
 
 
 
