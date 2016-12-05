@@ -1,6 +1,8 @@
 package binderhook;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.widget.EditText;
 
 /**
  * Created by randy on 2016/11/28.
@@ -10,5 +12,17 @@ import android.app.Activity;
  */
 public class BinderHookActivity extends Activity{
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try{
+            BinderHookHelper.hookClipboardService();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        EditText editText = new EditText(this);
+        setContentView(editText);
+
+    }
 }

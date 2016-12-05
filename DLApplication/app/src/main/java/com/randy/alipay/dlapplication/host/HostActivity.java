@@ -23,6 +23,8 @@ public class HostActivity extends Activity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HostActivity.this, ProxyActivity.class);
+                //这里sd卡中的plugin.apk文件时首先运行MainActivity生成的apk文件（默认在/data/app目录下），
+                //手动移到下面的目录下的并重新命名
                 intent.putExtra(ProxyActivity.EXTRA_DEX_PATH, "/mnt/sdcard/DynamicLoadHost/plugin.apk");
                 startActivity(intent);
             }

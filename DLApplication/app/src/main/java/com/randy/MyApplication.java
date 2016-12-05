@@ -7,6 +7,7 @@ import com.randy.hook.HookHelper;
 
 /**
  * Created by randy on 2016/11/16.
+ * 此项目是采用博客http://weishu.me/2016/01/28/understand-plugin-framework-overview/进行学习
  */
 public class MyApplication extends Application {
 
